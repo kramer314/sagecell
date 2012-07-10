@@ -1,6 +1,9 @@
 # location of a sage executable
 sage = "sage"
 
+web_port = 8888
+fs_port = 9000
+
 db = "sqlalchemy"
 db_config = {}
 

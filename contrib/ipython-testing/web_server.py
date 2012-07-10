@@ -49,13 +49,14 @@ class SageCellServer(tornado.web.Application):
 
         self.km = TMKM(computers = initial_comps, default_computer_config = default_comp, kernel_timeout = kernel_timeout)
         self.db = misc.init_db(self.config)
+
         self.ioloop = ioloop.IOLoop.instance()
 
         super(SageCellServer, self).__init__(handlers_list, **settings)
+        self.listen(self.config.get_config("web_port"))
 
 if __name__ == "__main__":
     application = SageCellServer()
-    application.listen(8888)
     try:
         application.ioloop.start()
     except KeyboardInterrupt:

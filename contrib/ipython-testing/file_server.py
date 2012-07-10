@@ -100,7 +100,8 @@ class SageCellFileServer(tornado.web.Application):
 
         super(SageCellFileServer, self).__init__(handlers)
 
+        self.listen(self.config.get_config("fs_port"))
+
 if __name__ == "__main__":
     application = SageCellFileServer()
-    application.listen(8080)
     tornado.ioloop.IOLoop.instance().start()
