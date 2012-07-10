@@ -4,8 +4,18 @@ sage = "sage"
 db = "sqlalchemy"
 db_config = {}
 
+fs = "sqlalchemy"
+fs_config = {"key": "this-should-be-a-string", # Used to help exclude unwanted requests
+             "workers": 20, # Number of filestorage worker processes
+             "max_files": 10, # Max number of files allowed in a POST request
+             }
+
 if db == "sqlalchemy":
-    db_config["uri"] = "sqlite:///sqlite.db"
+    db_config["uri"] = "sqlite:///sqlite_db.db"
+
+if fs == "sqlalchemy":
+    fs_config["uri"] = "sqlite:///sqlite_fs.db"
+    # fs_config["uri"] = "sqlite://" # For an in-memory database
 
 max_kernel_timeout = 60
 

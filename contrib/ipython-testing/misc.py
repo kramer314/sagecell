@@ -100,25 +100,53 @@ class Config(object):
         """
         return dir(self.config)
 
-def get_db_file(config):
+def init_db(config):
     """
-    A convenience function to get the correct location of a
-    database from a config object.
+    A convenience function to initialize a database from
+    a config object.
 
     :arg config: a Config object
-    :returns: the localation of the database file, for the
-        purposes of instantiating a database.
-    :rtype: str
+    :returns: a database object corresponding to the
+        specified config settings.
     """
     db_file = None
+    db_object = None
 
     db = config.get_config("db")
     db_config = config.get_config("db_config")
     if db == "sqlalchemy":
+        from db_sqlalchemy import DB
         db_file = db_config.get("uri")
+        db_object = DB(db_file)
+    else:
+        from db import DB
+        db_object = DB(db_file)
 
-    return db_file
-        
+    return db_object
+
+def init_fs(config):
+    """
+    A convenience function to initialize a databse-based
+    filestore container from a config object.
+
+    :arg config: a Config object
+    :returns: a database object corresopnding to the
+        specified config settings.
+    """
+    fs_file = None
+    fs_object = None
+
+    fs = config.get_config("fs")
+    fs_config = config.get_config("fs_config")
+    if fs == "sqlalchemy":
+        from fs_sqlalchemy import FileStore
+        fs_file = fs_config.get("uri")
+        fs_object = FileStore(fs_file)
+    else:
+        from fs import FileStore
+        fs_object = FileStore(fs_file)
+
+    return fs_object
 
 
 def decorator_defaults(func):

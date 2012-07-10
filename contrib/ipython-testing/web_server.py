@@ -8,7 +8,6 @@ from hashlib import sha1
 import misc
 
 from trusted_kernel_manager import TrustedMultiKernelManager as TMKM
-from db_sqlalchemy import DB
 
 # Tornado / zmq imports
 import zmq
@@ -49,7 +48,7 @@ class SageCellServer(tornado.web.Application):
         kernel_timeout = self.config.get_config("max_kernel_timeout")
 
         self.km = TMKM(computers = initial_comps, default_computer_config = default_comp, kernel_timeout = kernel_timeout)
-        self.db = DB(misc.get_db_file(self.config))
+        self.db = misc.init_db(self.config)
         self.ioloop = ioloop.IOLoop.instance()
 
         super(SageCellServer, self).__init__(handlers_list, **settings)
